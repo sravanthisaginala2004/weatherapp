@@ -5,9 +5,12 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'echo "Running on Unix"'
+                        sh 'echo "Running on Linux"'
                     } else {
-                        bat 'echo "Running on Windows"'
+                        bat '''
+                        set PATH=C:\\Windows\\System32;%PATH%
+                        echo "Running on Windows"
+                        '''
                     }
                 }
             }
