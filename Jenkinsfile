@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t weather-app .'
+                bat '"C:\\Windows\\System32\\cmd.exe" /c docker build -t weather-app .'
             }
         }
 
