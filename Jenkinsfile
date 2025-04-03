@@ -1,18 +1,24 @@
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
+        stage('Clone Repository') {
             steps {
-                script {
-                    if (isUnix()) {
-                        sh 'echo "Running on Linux"'
-                    } else {
-                        bat '''
-                        set PATH=C:\\Windows\\System32;%PATH%
-                        echo "Running on Windows"
-                        '''
-                    }
-                }
+                git 'https://github.com/kiran7733/weatherapp'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t weather-app .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                bat 'docker stop weather-container || exit 0'
+                bat 'docker rm weather-container || exit 0'
+                bat 'docker run -d -p 8000:8000 --name weather-container weather-app'
             }
         }
     }
